@@ -16,7 +16,7 @@ countrycode(SOURCEVAR, ORIGIN, DESTINATION)
 \details{
 Supports the following coding schemes: Correlates of War character, CoW-numeric, ISO3-character, ISO3-numeric, ISO2-character, IMF, FIPS 10-4, official English short country names (ISO), continent, region. 
 
-The following strings can be used as arguments for ORIGIN or DESTINATION: "cowc", "cown", "iso3c", "iso3n", "iso2c", "imf", "fips104", "country.name", "continent", "region"
+The following strings can be used as arguments for ORIGIN or DESTINATION: "cowc", "cown", "iso3c", "iso3n", "iso2c", "imf", "fips104", "country.name". The following strings can be used as arguments for DESTINATION only:  "continent", "region"
 }
 \value{
 	A vector of converted values of the same length as SOURCEVAR 
@@ -29,8 +29,9 @@ Capitalized country names refer to the official short English names, as defined 
 \author{Vincent Arel-Bundock <varel@umich.edu>}
 \examples{
 ### Usage example: 
+codes.of.origin <- countrycode_data$cowc ## Vector of values to be converted
 
-# iso1 <- countrycode(cowcode1, "cowc", "iso3c")
+countrycode(codes.of.origin, "cowc", "iso3c")
 
 ### Please note the quotation marks around the 2nd and 3rd args
 }

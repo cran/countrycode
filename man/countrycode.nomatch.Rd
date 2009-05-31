@@ -24,9 +24,9 @@ Vincent Arel-Bundock <varel@umich.edu>
 
 \examples{
 ### Usage example:
-### countrycode.nomatch("cowc", "iso3c")
-### Please note the quotation marks around both arguments
+countrycode.nomatch("cowc", "iso3c")
 
+### Please note the quotation marks around both arguments
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
