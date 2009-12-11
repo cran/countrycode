@@ -2,8 +2,8 @@ Package: countrycode
 Type: Package
 Title: Create and manipulate data frames that contain country names or
         country coding schemes
-Version: 0.2
-Date: 2009-05-31
+Version: 0.3
+Date: 2009-12-11
 Author: Vincent Arel-Bundock <varel@umich.edu>
 Maintainer: Vincent Arel-Bundock <varel@umich.edu>
 Description: Standardizes country names, converts them into one of
@@ -13,6 +13,6 @@ Description: Standardizes country names, converts them into one of
 License: GPL-3
 LazyLoad: yes
 LazyData: yes
-Packaged: Thu Jun 11 17:46:43 2009; huippusari
+Packaged: 2009-12-13 01:17:35 UTC; vincent
 Repository: CRAN
-Date/Publication: 2009-06-14 19:08:17
+Date/Publication: 2009-12-13 10:20:24
