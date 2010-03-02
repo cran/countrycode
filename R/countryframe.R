@@ -1,31 +1,28 @@
-`countryframe` <-
-function(TYPE,CODE,YEARS){
-  countries <- as.vector(countrycode_data[,c(CODE)])
-  countries <- countries[which(is.na(countries) == FALSE)]
-  countries <- as.vector(sort(countries))
-  id <- 0
-  years <- YEARS   
-if(TYPE=="directed.dyads"){
-  as.data.frame(do.call("rbind", lapply(countries, function(country1){
-    do.call("rbind", lapply(countries, function(country2){
-      id <<- id + 1
-      do.call("rbind", lapply(years, function(year){
-        if(country1 != country2){
-          cbind(id, country1,country2,year)
-        }}))}))})))
-} else if (TYPE=="country.years"){
-  as.data.frame(do.call("rbind", lapply(countries, function(country){
-    do.call("rbind", lapply(years, function(year){
-      cbind(country,year)
-    }))})))
-} else if (TYPE=="undirected.dyads"){
-    as.data.frame(do.call("rbind", lapply(countries, function(country1){
-    do.call("rbind", lapply(countries, function(country2){
-      id <<- id + 1
-      do.call("rbind", lapply(years, function(year){
-        if(country1 != country2 & country1<country2){
-          cbind(id, country1,country2,year)
-        }}))}))})))
-} else {print("The three valid types of dataframes are: undirected.dyads, directed.dyads, and country.years. The arguments must be enclosed in double quotes.")}
+`countryframe` <-function(TYPE,CODE,YEARS){
+  codes<-countrycode_data[is.na(countrycode_data[,CODE])==FALSE,CODE]
+  if (TYPE=="directed.dyads"){
+	dyads<-data.frame(expand.grid(codes, codes))
+	for (i in 1:2){dyads[,i]<-as.character(dyads[,i])}
+	if (is.numeric(YEARS)==TRUE){
+		dyads<-merge(YEARS, dyads)[,c(2,3,1)]
+		code1<-paste(CODE, 1, sep=".")
+		code2<-paste(CODE, 2, sep=".")
+		names(dyads)<-c(code1, code2, "years")
+	}
+  }else if (TYPE=="undirected.dyads"){
+	dyads<-data.frame(t(combn(codes, 2)))
+	for (i in 1:2){dyads[,i]<-as.character(dyads[,i])}
+	if (is.numeric(YEARS)==TRUE){
+		dyads<-merge(YEARS, dyads)[,c(2,3,1)]
+		code1<-paste(CODE, 1, sep=".")
+		code2<-paste(CODE, 2, sep=".")
+		names(dyads)<-c(code1, code2, "years")
+	}
+  }else if (TYPE=="country.years"){
+	dyads<-merge(codes, YEARS)
+	dyads[,1]<-as.character(dyads[,1])
+	names(dyads)<-c(CODE, "years")
+  }
+return(dyads)
 }
 

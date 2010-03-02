@@ -31,8 +31,8 @@ cown: 680, 678
 cowc: YAR, YPR
 
 GERMANY
-cown: 267, 255, 245
-cowc: BAV, GMY, BAD
+cown: 267, 260, 245
+cowc: BAV, GFR, BAD
 
 CONGO
 cown: 490

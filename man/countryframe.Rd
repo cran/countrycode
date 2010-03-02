@@ -21,7 +21,7 @@ Data frame
 \author{ Vincent Arel-Bundock <varel@umich.edu>}
 \examples{
 ## Usage example
-countryframe("undirected.dyads", "iso3c", c(1958:2002))
+countryframe("country.years", "iso3c", c(1998:2002))
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

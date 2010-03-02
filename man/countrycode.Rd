@@ -22,7 +22,7 @@ The following strings can be used as arguments for ORIGIN or DESTINATION: "cowc"
 	A vector of converted values of the same length as SOURCEVAR 
 }
 \note{
-To produce consistent conversion, some entries had to be removed from the translation data frame. For example, the Correlates of War uses 4 different codes to represent Western Germany. "countrycode" uses only one of them (CoW code 260 for all years). Similar choices were made in the cases of Korea, Yemen, Congo and Vietnam. Also, Namibia's iso2c code ("NA") can be understood as a missing observation (NA) by R.
+To produce consistent conversion, some entries had to be removed from the translation data frame. For example, the Correlates of War uses 4 different codes to represent Western Germany. "countrycode" uses only one of them (CoW code 255 for all years). Similar choices were made in the cases of Korea, Yemen, Congo and Vietnam. Also, Namibia's iso2c code ("NA") can be understood as a missing observation (NA) by R.
 
 Capitalized country names refer to the official short English names, as defined by the ISO organization. ISO does not publish official short English names for countries whose name is not capitalized in the country.name vector.
 }

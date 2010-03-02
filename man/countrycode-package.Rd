@@ -10,8 +10,8 @@ Countrycode is a utility to convert country coding schemes
 \tabular{ll}{
 Package: \tab countrycode\cr
 Type: \tab Package\cr
-Version: \tab 0.3\cr
-Date: \tab 2009-12-11\cr
+Version: \tab 0.5\cr
+Date: \tab 2010-08-14\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 LazyData: \tab yes\cr
