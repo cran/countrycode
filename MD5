@@ -1,0 +1,13 @@
+c93bc638f5c6df59a6c7d24f409428ea *DESCRIPTION
+9fdfeb11f7ddba6f3aab9aaa6b1ac5dd *NAMESPACE
+1221c1265a4fbcce1172590eeafc800e *R/countrycode.R
+c2f34defac64d43406082496161ba0e5 *R/countrycode.nomatch.R
+c518d0827f0b757f847693134b572a9b *R/countryframe.R
+d41d8cd98f00b204e9800998ecf8427e *README
+16cdd57525bcac859616bef39658e2bf *data/countrycode_data.rda
+ebfce3160959a01caa5205c56c2734df *man/countrycode-package.Rd
+63db469370be3312aa81830d2a5581f0 *man/countrycode.Rd
+8e092aec10d904fed07af744f1ba0b49 *man/countrycode.nomatch.Rd
+a6e74c472e853d162a50027079b0fb0f *man/countrycode_data.Rd
+a0d6e79077da601c67df966b8ed65909 *man/countryframe.Rd
+8f0e2cd40e05189ec81232da84bd6e1a *share/licenses/GPL-3
