@@ -1,12 +1,12 @@
-f0afae13c70ccff2bfe86ab9e2a781ac *DESCRIPTION
+5cb900e3eb5d214f16d92a2b0a1bca77 *DESCRIPTION
 21014f422523ad9da35f5f866645485a *NAMESPACE
-c4dba6ecc8a47872ba81dace0e3278d6 *NEWS
+388b29d6abdab879b5e49107eba38366 *NEWS
 4cae24d2933b96c289059fc87a2184dc *R/countrycode-package.R
 f4b224bdccfbd1c4b6bd8ad29172e454 *R/countrycode.R
 90a252c22a6b7ab6848e8b75a2f6ac3c *R/countrycode_data.R
 de6e418c48d40cd14040319c38551808 *README.md
-82d34dfff64d55b3ad0545b18bf27a97 *data/countrycode_data.csv
-3b2895cce23620137e3a89bf596acd8b *data/countrycode_data.rda
+86652c6db574e58f7d5b2d87053b420b *data/countrycode_data.csv
+8a3eb41fbdc31abcb485562a768b1c63 *data/countrycode_data.rda
 17c55c9d041ea21c4150270e7daea0f0 *man/countrycode-package.Rd
 53a9ad23db20930c8d59ce38ca693c68 *man/countrycode.Rd
 1dfee3c2cc47c9db332803987eb841c5 *man/countrycode_data.Rd
