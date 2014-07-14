@@ -1,3 +1,14 @@
+Version 0.17 (2014-07-15)
+-------------------------
+
+* Added International Olympic Committee codes (Thanks to Devon Meunier)
+* Bug: fips04 -> fips104 (Thanks to Florian Hollenbach)
+* Complete FIPS104 codes (Thanks to Andy Halterman)
+* Generic code name validity check (Thanks to Stefan Zeugner)
+* Fixed IMF codes (Thanks to Stefan Zeugner)
+* Regex fix to work better with Database of Political Insitutions (Thanks to Christopher Gandrud)
+* Avoids confusion with Eq Guinea (Thanks to Christopher Gandrud)
+
 Version 0.16 (2013-08-20)
 -------------------------
 
@@ -67,5 +78,6 @@ Version 0.7 (2012-06-01)
 * Moved documentation to roxygen2
 * Fixed Trinidad Tobago regex
 * Added UN and FAO country codes
+
 
 
