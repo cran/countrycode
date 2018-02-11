@@ -2,35 +2,39 @@
 % Please edit documentation in R/countrycode.R
 \name{countrycode}
 \alias{countrycode}
-\title{Convert Country Codes}
+\title{Converts long country names into one of many different coding schemes.
+Translates from one scheme to another. Converts country name or coding
+scheme to the official short English country name. Creates a new variable
+with the name of the continent or region to which each country belongs.}
 \usage{
-countrycode(sourcevar, origin, destination, warn = TRUE, custom_dict = NULL,
-  custom_match = NULL, origin_regex = FALSE)
+countrycode(sourcevar, origin, destination, warn = TRUE, nomatch = NA,
+  custom_dict = NULL, custom_match = NULL, origin_regex = FALSE)
 }
 \arguments{
 \item{sourcevar}{Vector which contains the codes or country names to be
 converted (character or factor)}
 
-\item{origin}{Coding scheme of origin (string enclosed in quotes ""):
-"cowc", "cown", "eurostat", "fao", "fips105", "imf", "ioc", "iso2c", "iso3c",
-"iso3n", "p4_ccode", "p4_scode", "un", "wb", "wb_api2c", "wb_api3c", "wvs",
-"country.name", "country.name.de".}
+\item{origin}{Coding scheme of origin (string such as "iso3c" enclosed in
+quotes ""): type "?codelist" for a list of available codes.}
 
-\item{destination}{Coding scheme of destination (string enclosed in quotes ""):
-"ar5", "continent", "cowc", "cown", "eurostat", "eu28", "eurocontrol_pru",
-"eurocontrol_statfor", "fao", "fips105", "icao", "icao_region", "imf",
-"ioc", "iso2c", "iso3c", "iso3n", "p4_ccode", "p4_scode", "region", "un",
-"wb", "wb_api2c", "wb_api3c", "wvs", "country.name", "country.name.ar",
-"country.name.de", "country.name.en", "country.name.es", "country.name.fr",
-"country.name.ru", "country.name.zh".}
+\item{destination}{Coding scheme of destination (string such as "iso3c"
+enclosed in quotes ""): type `?codelist` for a list of
+available codes.}
 
 \item{warn}{Prints unique elements from sourcevar for which no match was found}
+
+\item{nomatch}{When countrycode fails to find a match for the code of
+origin, it fills-in the destination vector with nomatch. The default
+behavior is to fill non-matching codes with NA. If nomatch = NULL,
+countrycode tries to use the origin vector to fill-in missing values in the
+destination vector. nomatch must be either NULL, of length 1, or of the same
+length as sourcevar.}
 
 \item{custom_dict}{A data frame which supplies custom country codes.
 Variables correspond to country codes, observations must refer to unique
 countries.  When countrycode uses a user-supplied dictionary, no sanity
 checks are conducted. The data frame format must resemble
-countrycode::countrycode_data.}
+countrycode::codelist.}
 
 \item{custom_match}{A named vector which supplies custom origin and
 destination matches that will supercede any matching default result. The name
@@ -49,8 +53,20 @@ with the name of the continent or region to which each country belongs.
 }
 \note{
 For a complete description of available country codes and languages,
-please read the documentation for the \code{countrycode_data} conversion
-dictionary.  Type: \code{?countrycode_data}.
+please read the documentation for the \code{codelist} conversion
+dictionary.  Type: \code{?codelist}.
+
+Panel data (i.e., country-year) can pose particular problems when
+converting codes. For instance, some countries like Vietnam or Serbia go
+through political transitions that justify changing codes over time. This
+can pose problems when using codes from organizations like CoW or Polity IV,
+which produce codes in country-year format. Instead of converting codes
+using the `countrycode` function, we recommend that users use the
+``countrycode::codelist_panel`` data.frame as a base into which they can
+merge their other data. This data.frame includes most relevant code, and is
+already "reconciled" to ensure that each political unit is only represented
+by one row in any given year. From there, it is just a matter of using `R`'s
+`merge` function to combine different datasets which use different codes.
 }
 \examples{
 # ISO to Correlates of War
@@ -58,7 +74,6 @@ countrycode(c('USA', 'DZA'), 'iso3c', 'cown')
 # English to ISO
 countrycode('Albania', 'country.name', 'iso3c')
 # German to French
-countrycode('Albanien', 'country.name.de', 'country.name.fr')
+countrycode('Albanien', 'country.name.de', 'iso.name.fr')
 }
 \keyword{countrycode}
-
