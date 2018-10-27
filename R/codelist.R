@@ -17,6 +17,8 @@
 #'   \item genc2c: GENC 2-letter code
 #'   \item genc3c: GENC 3-letter code
 #'   \item genc3n: GENC numeric code
+#'   \item gwc: Gleditsch & Ward character
+#'   \item gwn: Gleditsch & Ward numeric
 #'   \item imf: International Monetary Fund
 #'   \item ioc: International Olympic Committee
 #'   \item iso2c: ISO-2 character
@@ -25,8 +27,9 @@
 #'   \item iso3n: ISO-3 numeric
 #'   \item p4n: Polity IV numeric country code
 #'   \item p4c: Polity IV character country code
-#'   \item un: United Nations numerical code
+#'   \item un: United Nations M49 numeric codes
 #'   \item unpd: United Nations Procurement Division
+#'   \item vdem: Varieties of Democracy (V-Dem version 8, April 2018)
 #'   \item wb: World Bank (very similar but not identical to iso3c)
 #'   \item wvs: World Values Survey numeric code
 #' }
