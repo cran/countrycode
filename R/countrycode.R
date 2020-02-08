@@ -1,4 +1,4 @@
-# Convert Country Codes
+#' Convert Country Codes
 #'
 #' Converts long country names into one of many different coding schemes.
 #' Translates from one scheme to another. Converts country name or coding
@@ -51,11 +51,11 @@
 #' @aliases countrycode
 #' @examples
 #' # ISO to Correlates of War
-#' countrycode(c('USA', 'DZA'), 'iso3c', 'cown')
+#' countrycode(c('USA', 'DZA'), origin = 'iso3c', destination = 'cown')
 #' # English to ISO
-#' countrycode('Albania', 'country.name', 'iso3c')
+#' countrycode('Albania', origin = 'country.name', destination = 'iso3c')
 #' # German to French
-#' countrycode('Albanien', 'country.name.de', 'iso.name.fr')
+#' countrycode('Albanien', origin = 'country.name.de', destination = 'iso.name.fr')
 countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = NA,
                         custom_dict = NULL, custom_match = NULL, origin_regex = FALSE) {
 
@@ -88,7 +88,7 @@ countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = N
         valid_origin = c("country.name", "country.name.de", "cowc", "cown",
                          "ecb", "eurostat", "fao", "fips", "gaul", "genc2c",
                          "genc3c", "genc3n", "gwc", "gwn", "imf", "ioc", "iso2c", "iso3c",
-                         "iso3n", "p4c", "p4nj", "un", "un_m49", "unpd",
+                         "iso3n", "p4c", "p4n", "un", "un_m49", "unpd",
                          "vdem", "wb", "wb_api2c", "wb_api3c", "wvs",
                          "country.name.en.regex", "country.name.de.regex")
         valid_destination <- colnames(dictionary)

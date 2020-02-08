@@ -2,13 +2,18 @@
 % Please edit documentation in R/countrycode.R
 \name{countrycode}
 \alias{countrycode}
-\title{Converts long country names into one of many different coding schemes.
-Translates from one scheme to another. Converts country name or coding
-scheme to the official short English country name. Creates a new variable
-with the name of the continent or region to which each country belongs.}
+\title{Convert Country Codes}
 \usage{
-countrycode(sourcevar, origin, destination, warn = TRUE, nomatch = NA,
-  custom_dict = NULL, custom_match = NULL, origin_regex = FALSE)
+countrycode(
+  sourcevar,
+  origin,
+  destination,
+  warn = TRUE,
+  nomatch = NA,
+  custom_dict = NULL,
+  custom_match = NULL,
+  origin_regex = FALSE
+)
 }
 \arguments{
 \item{sourcevar}{Vector which contains the codes or country names to be
@@ -70,10 +75,10 @@ by one row in any given year. From there, it is just a matter of using `R`'s
 }
 \examples{
 # ISO to Correlates of War
-countrycode(c('USA', 'DZA'), 'iso3c', 'cown')
+countrycode(c('USA', 'DZA'), origin = 'iso3c', destination = 'cown')
 # English to ISO
-countrycode('Albania', 'country.name', 'iso3c')
+countrycode('Albania', origin = 'country.name', destination = 'iso3c')
 # German to French
-countrycode('Albanien', 'country.name.de', 'iso.name.fr')
+countrycode('Albanien', origin = 'country.name.de', destination = 'iso.name.fr')
 }
 \keyword{countrycode}
