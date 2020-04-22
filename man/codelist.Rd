@@ -4,7 +4,9 @@
 \name{codelist}
 \alias{codelist}
 \title{Country Code Translation Data Frame (Cross-Sectional)}
-\format{data frame with codes as columns}
+\format{
+data frame with codes as columns
+}
 \description{
 A data frame used internally by the \code{countrycode()} function. `countrycode` can use any valid code as destination, but only some codes can be used as origin.
 }
@@ -30,7 +32,6 @@ Origin and Destination:
   \item ioc: International Olympic Committee
   \item iso2c: ISO-2 character
   \item iso3c: ISO-3 character
-  \item iso2n: ISO-2 numeric
   \item iso3n: ISO-3 numeric
   \item p4n: Polity IV numeric country code
   \item p4c: Polity IV character country code
