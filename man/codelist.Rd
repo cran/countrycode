@@ -14,6 +14,7 @@ A data frame used internally by the \code{countrycode()} function. `countrycode`
 Origin and Destination:
 
 \itemize{
+  \item ccTLD: IANA country code top-level domain
   \item country.name: country name (English)
   \item country.name.de: country name (German)
   \item cowc: Correlates of War character
@@ -37,6 +38,7 @@ Origin and Destination:
   \item p4n: Polity IV numeric country code
   \item p4c: Polity IV character country code
   \item un: United Nations M49 numeric codes
+  \item unicode.symbol: Region subtag (often displayed as emoji flag)
   \item unpd: United Nations Procurement Division
   \item vdem: Varieties of Democracy (V-Dem version 8, April 2018)
   \item wb: World Bank (very similar but not identical to iso3c)
@@ -48,31 +50,33 @@ Destination only:
              (AR5) and for the Reference Concentration Pathways (RCP)
   \item continent: Continent as defined in the World Bank Development Indicators
   \item cow.name: Correlates of War country name
-  \item ecb.name: European Central Bank country name
+  \item currency: ISO 4217 currency name
   \item eurocontrol_pru:  European Organisation for the Safety of Air Navigation
   \item eurocontrol_statfor:  European Organisation for the Safety of Air Navigation
-  \item eurostat.name:  Eurostat country name
   \item eu28: Member states of the European Union (as of December 2015),
               without special territories
-  \item fao.name: Food and Agriculture Organization of the United Nations country name
-  \item fips.name: FIPS 10-4 Country name
-  \item genc.name: Geopolitical Entities, Names and Codes standard country names
-  \item icao.name: International Civil Aviation Organization country name
   \item icao.region: International Civil Aviation Organization region
-  \item ioc.name: International Olympic Committee country name
   \item iso.name.en: ISO English short name
   \item iso.name.fr: ISO French short name
+  \item iso4217c: ISO 4217 currency alphabetic code
+  \item iso4217n: ISO 4217 currency numeric code
   \item p4.name: Polity IV country name
-  \item region: Regions as defined in the World Bank Development Indicators
+  \item region: 7 Regions as defined in the World Bank Development Indicators
+  \item region23: 23 Regions as used to be in the World Bank Development Indicators (legacy)
   \item un.name.ar: United Nations Arabic country name
   \item un.name.en: United Nations English country name
   \item un.name.es: United Nations Spanish country name
   \item un.name.fr: United Nations French country name
   \item un.name.ru: United Nations Russian country name
   \item un.name.zh: United Nations Chinese country name
-  \item unpd.name: United Nations Procurement Division country name
+  \item un.region.name: United Nations region name
+  \item un.region.code: United Nations region code
+  \item un.regionintermediate.name: United Nations intermediate region name
+  \item un.regionintermediate.code: United Nations intermediate region code
+  \item un.regionsub.name: United Nations sub-region name
+  \item un.regionsub.code: United Nations sub-region code
   \item wvs.name: World Values Survey numeric code country name
-  \item cldr.*: 622 country name variants from the UNICODE CLDR project.
+  \item cldr.*: 600+ country name variants from the UNICODE CLDR project.
   Inspect the `countrycode::cldr_examples` data.frame for a full list of
   available country names and examples.
 }
