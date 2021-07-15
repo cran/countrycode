@@ -8,6 +8,18 @@ variations <- list(
     #"åland islands"
   #),
 
+  "Suriname" = c(
+    "Dutch Guyana",
+    "Dutch Guiana"
+  ),
+  "French Guiana" = c(
+    "French Guiana",
+    "French Guyana"
+  ),
+  "Guyana" = c(
+    "British Guiana",
+    "British Guyana"
+  ),
 
   "Congo - Brazzaville" = c(
     "republic of congo",
@@ -33,11 +45,13 @@ variations <- list(
     "congo-zaire",
     "zaire",
     "belgian congo",
-    #"republic of the congo-léopoldville",
     "congo free state",
     "D.R. Congo",
     "DR Congo",
     "Democratic Republic of Congo"
+    # accented regexes do not work on Windows. They are not officially supported anyway
+    #"republic of the congo-léopoldville",
+    # "rép. démocratique du congo",
   ),
 
 
@@ -79,6 +93,7 @@ variations <- list(
   "North Korea" = c(
     "Democratic People's Republic of Korea",
     "DPRK",
+    "Korea, Dem. Rep.",
     "DPR Korea",
     "D.P.R. Korea",
     "D.P.R Korea",

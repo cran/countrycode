@@ -4,12 +4,14 @@
 #' code schemes or country names. `countryname` does 2 passes on the data.
 #' First, it tries to detect variations of country names in many languages
 #' extracted from the Unicode Common Locale Data Repository. Second, it applies
-#' `countrycode`'s English regexes to try to match the remaining cases.
+#' `countrycode`'s English regexes to try to match the remaining cases. Because
+#' it does two passes, `countryname` can sometimes produce ambiguous results,
+#' e.g., Saint Martin vs. Saint Martin (French Part). Users who need a "safer"
+#' option can use: `countrycode(x, "country.name", "country.name")` Note that
+#' the function works with non-ASCII characters. Please see the Github page for
+#' examples.
 #'
-#' Note that the function works with non-ASCII characters. Please see the
-#' Github page for examples. 
-#'
-#' @param sourcevar Vector which contains the codes or country names to be
+#' @param sourcevar Vector which contains the codes or country names to ce
 #' converted (character or factor)
 #' @param destination Coding scheme of destination (string such as "iso3c"
 #' enclosed in quotes ""): type `?codelist` for a list of
@@ -25,7 +27,7 @@
 #' countryname(x, destination = 'iso3c')
 #' }
 #'
-countryname <- function(sourcevar, destination = 'cldr.short.en', warn = FALSE) {
+countryname <- function(sourcevar, destination = 'cldr.short.en', warn = TRUE) {
     
     out <- countrycode(sourcevar = sourcevar,
                        origin = 'country.name.alt',
@@ -44,6 +46,8 @@ countryname <- function(sourcevar, destination = 'cldr.short.en', warn = FALSE) 
                          origin = 'country.name.en', 
                          destination = destination,
                          custom_dict = countrycode::codelist, 
+                         # this is the second round, so we can use the origin vector for NAs
+                         nomatch = NULL,
                          warn = warn)
     }
     

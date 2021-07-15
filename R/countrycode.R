@@ -5,51 +5,68 @@
 #' scheme to the official short English country name. Creates a new variable
 #' with the name of the continent or region to which each country belongs.
 #'
-#' @param sourcevar Vector which contains the codes or country names to be
-#' converted (character or factor)
-#' @param origin Coding scheme of origin (string such as "iso3c" enclosed in
-#' quotes ""): type "?codelist" for a list of available codes.
-#' @param destination Coding scheme of destination (string such as "iso3c"
-#' enclosed in quotes ""): type `?codelist` for a list of
-#' available codes.
-#' @param warn Prints unique elements from sourcevar for which no match was found
-#' @param nomatch When countrycode fails to find a match for the code of
-#' origin, it fills-in the destination vector with nomatch. The default
-#' behavior is to fill non-matching codes with NA. If nomatch = NULL,
-#' countrycode tries to use the origin vector to fill-in missing values in the
-#' destination vector. nomatch must be either NULL, of length 1, or of the same
-#' length as sourcevar.
-#' @param custom_dict A data frame which supplies a new dictionary to replace
-#' the built-in country code dictionary. Each column contains a different code
-#' and must include no duplicates. The data frame format should resemble
-#' `countrycode::codelist`.  Warning: when `custom_dict` is used, no sanity
-#' checks are conducted.
-#' @param custom_match A named vector which supplies custom origin and
-#' destination matches that will supercede any matching default result. The name
-#' of each element will be used as the origin code, and the value of each
-#' element will be used as the destination code.
-#' @param origin_regex Logical: When using a custom dictionary, if TRUE then the
-#' origin codes will be matched as regex, if FALSE they will be matched exactly.
-#' When using the default dictionary (dictionary = NULL), origin_regex will be ignored.
-#' @keywords countrycode
-#' @note For a complete description of available country codes and languages,
-#' please read the documentation for the \code{codelist} conversion
-#' dictionary.  Type: \code{?codelist}.
-#' @note Panel data (i.e., country-year) can pose particular problems when
+#' @note
+#' For a complete description of available country codes and languages,
+#' please see the documentation for the [`codelist`][codelist] conversion
+#' dictionary.
+#'
+#' Panel data (i.e., country-year) can pose particular problems when
 #' converting codes. For instance, some countries like Vietnam or Serbia go
 #' through political transitions that justify changing codes over time. This
 #' can pose problems when using codes from organizations like CoW or Polity IV,
 #' which produce codes in country-year format. Instead of converting codes
-#' using the `countrycode` function, we recommend that users use the
-#' ``countrycode::codelist_panel`` data.frame as a base into which they can
+#' using `countrycode()`, we recommend that users use the
+#' [`codelist_panel`][codelist_panel] data.frame as a base into which they can
 #' merge their other data. This data.frame includes most relevant code, and is
 #' already "reconciled" to ensure that each political unit is only represented
-#' by one row in any given year. From there, it is just a matter of using `R`'s
-#' `merge` function to combine different datasets which use different codes.
+#' by one row in any given year. From there, it is just a matter of using [merge()]
+#' to combine different datasets which use different codes.
 #'
+#' @param sourcevar Vector which contains the codes or country names to be
+#'   converted (character or factor)
+#' @param origin A string which identifies the coding scheme of origin (e.g., `"iso3c"`). See
+#'   [`codelist`][codelist] for a list of available codes.
+#' @param destination A string or vector of strings which identify the coding
+#'   scheme of destination (e.g., `"iso3c"` or `c("cowc", "iso3c")`). See
+#'   [`codelist`][codelist] for a list of available codes. When users supply a
+#'   vector of destination codes, they are used sequentially to fill in
+#'   missing values not covered by the previous destination code in the
+#'   vector.
+#' @param warn Prints unique elements from sourcevar for which no match was found
+#' @param nomatch When countrycode fails to find a match for the code of
+#'   origin, it fills-in the destination vector with `nomatch`. The default
+#'   behavior is to fill non-matching codes with `NA`. If `nomatch = NULL`,
+#'   countrycode tries to use the origin vector to fill-in missing values in the
+#'   destination vector. `nomatch` must be either `NULL`, of length 1, or of the same
+#'   length as `sourcevar`.
+#' @param custom_dict A data frame which supplies a new dictionary to
+#'   replace the built-in country code dictionary. Each column
+#'   contains a different code and must include no duplicates. The
+#'   data frame format should resemble [`codelist`][codelist]. Users
+#'   can pre-assign attributes to this custom dictionary to affect
+#'   behavior (see Examples section):
+#'   \itemize{
+#'   \item "origin.regex" attribute: a character vector with the names
+#'     of columns containing regular expressions.
+#'   \item "origin.valid" attribute: a character vector with the names
+#'     of columns that are accepted as valid origin codes.
+#'   }
+#' @param custom_match A named vector which supplies custom origin and
+#'   destination matches that will supercede any matching default result. The name
+#'   of each element will be used as the origin code, and the value of each
+#'   element will be used as the destination code.
+#' @param origin_regex NULL or Logical: When using a custom
+#'   dictionary, if TRUE then the origin codes will be matched as
+#'   regex, if FALSE they will be matched exactly. When NULL,
+#'   `countrycode` will behave as TRUE if the origin name is in the
+#'   `custom_dictionary`'s `origin_regex` attribute, and FALSE
+#'   otherwise. See examples section below.
+#' @keywords countrycode
 #' @export
 #' @aliases countrycode
 #' @examples
+#' library(countrycode)
+#'
 #' # ISO to Correlates of War
 #' countrycode(c('USA', 'DZA'), origin = 'iso3c', destination = 'cown')
 #'
@@ -65,51 +82,67 @@
 #'             custom_match = c('Algeria' = 'ALG'))
 #'
 #' \dontrun{
-#' # Using `custom_dict` to convert US States names. This dictionary is
-#' hosted on github. We use a shortened URL to load it.
-#' cd <- 'https://bit.ly/2ToSrFv'
-#' cd <- read.csv(cd)
-#' countrycode(c('AL', 'AK'), 'abbreviation', 'state', 
-#'             custom_dict = cd)
-#' countrycode(c('Alabama', 'North Dakota'), 'state.regex', 'state',
-#'             custom_dict = cd, origin_regex = TRUE)
+#'  # Download the dictionary of US states from Github
+#'  state_dict <- "https://bit.ly/2ToSrFv"
+#'  state_dict <- read.csv(state_dict)
+#' 
+#'  # The "state.regex" column includes regular expressions, so we set an attribute.
+#'  attr(state_dict, "origin_regex") <- "state.regex"
+#
+#'  countrycode(c('AL', 'AK'), 'abbreviation', 'state',
+#'              custom_dict = state_dict)
+#'  countrycode(c('Alabama', 'North Dakota'), 'state.regex', 'state',
+#'              custom_dict = state_dict)
 #' }
 countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = NA,
-                        custom_dict = NULL, custom_match = NULL, origin_regex = FALSE) {
+                        custom_dict = NULL, custom_match = NULL, origin_regex = NULL) {
 
-    # Regex naming scheme
-    if (is.null(custom_dict)) { # only for default dictionary
-        # English regex is default
+    # default dictionary
+    if (is.null(custom_dict)) {
+        dictionary <- countrycode::codelist
+        attr(dictionary, "origin_valid") <- c(
+          "cctld", "country.name", "country.name.de", "cowc", "cown", "dhs",
+          "ecb", "eurostat", "fao", "fips", "gaul", "genc2c", "genc3c",
+          "genc3n", "gwc", "gwn", "imf", "ioc", "iso2c", "iso3c", "iso3n",
+          "p4c", "p4n", "un", "un_m49", "unicode.symbol", "unpd", "vdem", "wb",
+          "wb_api2c", "wb_api3c", "wvs", "country.name.en.regex",
+          "country.name.de.regex")
+        attr(dictionary, "origin_regex") <- c("country.name.de.regex",
+                                              "country.name.en.regex")
+    } else {
+        dictionary <- custom_dict
+    }
+
+    # default country names (only for default dictionary)
+    if (is.null(custom_dict)) { 
         if (origin == 'country.name') {
             origin <- 'country.name.en'
         }
-        if (destination == 'country.name') {
-            destination <- 'country.name.en'
-        }
-        # .regex extension in dictionary colnames
         if (origin %in% c('country.name.en', 'country.name.de')) {
             origin <- paste0(origin, '.regex')
-            origin_regex <- TRUE
+        }
+        destination[destination == "country.name"] <- 'country.name.en'
+    }
+
+    # dictionary attributes
+    if (is.null(attr(dictionary, "origin_valid"))) {
+        origin_valid <- colnames(dictionary)
+    } else {
+        origin_valid <- attr(dictionary, "origin_valid")
+    }
+
+    if (is.null(attr(dictionary, "destination_valid"))) {
+        destination_valid <- colnames(dictionary)
+    } else {
+        destination_valid <- attr(dictionary, "destination_valid")
+    }
+
+    if (is.null(origin_regex)) { # user can override
+        if (!is.null(attr(dictionary, "origin_regex"))) {
+            origin_regex <- origin %in% attr(dictionary, "origin_regex")
         } else {
             origin_regex <- FALSE
         }
-    }
-
-    # Set conversion dictionary
-    if (!is.null(custom_dict)) {
-        dictionary <- custom_dict
-        valid_origin <- colnames(dictionary)
-        valid_destination <- colnames(dictionary)
-    } else {
-        dictionary = countrycode::codelist
-        # Modify this manually when adding codes
-        valid_origin = c("cctld", "country.name", "country.name.de", "cowc", "cown", "dhs",
-                         "ecb", "eurostat", "fao", "fips", "gaul", "genc2c",
-                         "genc3c", "genc3n", "gwc", "gwn", "imf", "ioc", "iso2c", "iso3c",
-                         "iso3n", "p4c", "p4n", "un", "un_m49", "unicode.symbol", "unpd",
-                         "vdem", "wb", "wb_api2c", "wb_api3c", "wvs",
-                         "country.name.en.regex", "country.name.de.regex")
-        valid_destination <- colnames(dictionary)
     }
 
     # Allow tibbles as conversion dictionary
@@ -133,20 +166,20 @@ countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = N
         stop('nomatch needs to be NULL, or of length 1 or ', length(sourcevar), '.')
     }
 
-    if (!origin %in% valid_origin) {
-        stop('Origin code not supported by countrycode or present in the user-supplied custom_dict.')
+    if (!is.character(origin) ||
+        length(origin) != 1 ||
+        !origin %in% origin_valid) {
+        stop(sprintf("The `origin` argument must be a string of length 1 equal to one of these values: %s.",
+                     paste(origin_valid, collapse = ", ")))
     }
 
-    if (!destination %in% valid_destination) {
-        stop('Destination code not supported by countrycode or present in the user-supplied custom_dict.')
+    if (!is.character(destination) ||
+        !all(destination %in% destination_valid)) {
+        stop("The `destination` argument must be a string or a vector of strings where each element is equal to one of the column names in the conversion directory (by default: `codelist`).")
     }
 
-    if(class(dictionary) != 'data.frame'){
-        stop("Dictionary must be a data frame or tibble with codes as columns.")
-    }
-
-    if(!destination %in% colnames(dictionary)){
-        stop("Destination code must correpond to a column name in the dictionary data frame.")
+    if(!inherits(dictionary, "data.frame")) {
+        stop("The `dictionary` argument must be a data frame or tibble with codes as columns.")
     }
 
     dups = any(duplicated(stats::na.omit(dictionary[, origin])))
@@ -159,10 +192,50 @@ countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = N
 
     # Case-insensitive matching
     if(is.null(custom_dict)){ # only for built-in dictionary
-        if((class(origin_vector) == 'character') & !grepl('country', origin)){
+        if(inherits(origin_vector, 'character') & !grepl('country', origin)){
             origin_vector = toupper(origin_vector)
         }
     }
+
+    out <- rep(NA, length(sourcevar))
+    for (dest in destination) {
+        out <- ifelse(is.na(out),
+                      countrycode_convert(
+                          ## user-supplied arguments
+                          sourcevar = sourcevar,
+                          origin = origin,
+                          destination = dest,
+                          warn = warn,
+                          nomatch = nomatch,
+                          custom_dict = custom_dict,
+                          custom_match = custom_match,
+                          origin_regex = origin_regex,
+                          ## countrycode-supplied arguments
+                          origin_vector = origin_vector,
+                          dictionary = dictionary),
+                      out)
+    }
+    return(out)
+}
+                        
+
+#' internal function called by `countrycode()`
+#'
+#' @keywords internal
+#' @noRd
+countrycode_convert <- function(# user-supplied arguments
+                                sourcevar,
+                                origin,
+                                destination,
+                                warn,
+                                nomatch,
+                                custom_dict,
+                                custom_match,
+                                origin_regex,
+                                # countrycode-supplied arguments
+                                origin_vector,
+                                dictionary
+                                ) {
 
     # Convert
     if (origin_regex) { # regex codes

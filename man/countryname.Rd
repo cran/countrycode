@@ -4,28 +4,29 @@
 \alias{countryname}
 \title{Convert country names in any language to another name or code}
 \usage{
-countryname(sourcevar, destination = "cldr.short.en", warn = FALSE)
+countryname(sourcevar, destination = "cldr.short.en", warn = TRUE)
 }
 \arguments{
-\item{sourcevar}{Vector which contains the codes or country names to be
+\item{sourcevar}{Vector which contains the codes or country names to ce
 converted (character or factor)}
 
 \item{destination}{Coding scheme of destination (string such as "iso3c"
-enclosed in quotes ""): type `?codelist` for a list of
+enclosed in quotes ""): type \code{?codelist} for a list of
 available codes.}
 
 \item{warn}{Prints unique elements from sourcevar for which no match was found}
 }
 \description{
 Converts long country names in any language to one of many different country
-code schemes or country names. `countryname` does 2 passes on the data.
+code schemes or country names. \code{countryname} does 2 passes on the data.
 First, it tries to detect variations of country names in many languages
 extracted from the Unicode Common Locale Data Repository. Second, it applies
-`countrycode`'s English regexes to try to match the remaining cases.
-}
-\details{
-Note that the function works with non-ASCII characters. Please see the
-Github page for examples.
+\code{countrycode}'s English regexes to try to match the remaining cases. Because
+it does two passes, \code{countryname} can sometimes produce ambiguous results,
+e.g., Saint Martin vs. Saint Martin (French Part). Users who need a "safer"
+option can use: \code{countrycode(x, "country.name", "country.name")} Note that
+the function works with non-ASCII characters. Please see the Github page for
+examples.
 }
 \examples{
 \dontrun{
