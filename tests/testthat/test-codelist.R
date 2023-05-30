@@ -6,7 +6,7 @@ dest <- c('year', 'ar5', 'continent', 'currency', 'eu28', 'eurocontrol_pru',
           'eurocontrol_statfor', 'icao', 'icao.region', 'iso4217c',
           'iso4217n','region', 'region23', 'un.region.name', 'un.region.code',
           'un.regionsub.name', 'un.regionsub.code',
-          'un.regionintermediate.name', 'un.regionintermediate.code')
+          'un.regionintermediate.name', 'un.regionintermediate.code', 'unhcr.region')
 
 ##############
 #  codelist  #
@@ -89,7 +89,7 @@ test_that('codelist_panel has (roughly) correct dimensions', {
     expect_gt(nrow(pan), 25000)
     expect_lt(nrow(pan), 30000)
     expect_gt(ncol(pan), 40)
-    expect_lt(ncol(pan), 55)
+    expect_lt(ncol(pan), 60)
 })
 
 # columns

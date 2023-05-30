@@ -104,7 +104,7 @@ countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = N
             "cctld", "country.name", "country.name.de", "country.name.fr", "country.name.it",
             "cowc", "cown", "dhs", "ecb", "eurostat", "fao", "fips", "gaul",
             "genc2c", "genc3c", "genc3n", "gwc", "gwn", "imf", "ioc", "iso2c",
-            "iso3c", "iso3n", "p4c", "p4n", "un", "un_m49", "unicode.symbol",
+            "iso3c", "iso3n", "p5c", "p5n", "p4c", "p4n", "un", "un_m49", "unicode.symbol",
             "unhcr", "unpd", "vdem", "wb", "wb_api2c", "wb_api3c", "wvs",
             "country.name.en.regex", "country.name.de.regex", "country.name.fr.regex", "country.name.it.regex")
         attr(dictionary, "origin_regex") <- c("country.name.de.regex",
@@ -237,6 +237,7 @@ countrycode_convert <- function(# user-supplied arguments
                                 dictionary
                                 ) {
 
+
     # Convert
     if (origin_regex) { # regex codes
         dict <- stats::na.omit(dictionary[, c(origin, destination)])
@@ -245,7 +246,7 @@ countrycode_convert <- function(# user-supplied arguments
         # match levels of sourcefctr
         matches <-
           sapply(c(levels(sourcefctr), NA), function(x) { # add NA so there's at least one item
-            x <- trimws(x)
+            x <- tryCatch(trimws(x), error = function(e) x) # sometimes an error is triggered by encoding issues
             matchidx <- sapply(dict[[origin]], function(y) grepl(y, x, perl = TRUE, ignore.case = TRUE))
             dict[matchidx, destination]
           })
@@ -276,11 +277,23 @@ countrycode_convert <- function(# user-supplied arguments
         destination_vector <- unname(matches[as.numeric(sourcefctr)])
 
     } else { # non-regex codes
+
+        # sanity check
+        if (is.character(origin_vector) && is.numeric(dictionary[[origin]])) {
+            msg <- sprintf("To convert a `%s` code, `sourcevar` must be numeric.", origin)
+            stop(msg, call. = FALSE)
+        }
+
         dict <- stats::na.omit(dictionary[, c(origin, destination)])
+
         sourcefctr <- factor(origin_vector)
 
         # match levels of sourcefctr
-        matchidxs <- match(levels(sourcefctr), dict[[origin]])
+        if (identical(origin, "cctld")) {
+          matchidxs <- match(levels(sourcefctr), toupper(dict[[origin]]))
+        } else {
+          matchidxs <- match(levels(sourcefctr), dict[[origin]])
+        }
         matches <- dict[[destination]][matchidxs]
 
         # replace with custom matches if set
@@ -305,7 +318,7 @@ countrycode_convert <- function(# user-supplied arguments
             destination_vector[idx] <- as.character(sourcevar[idx])
         } else {
             warning("The origin and destination codes are not of the same
-                    class. Filling-in bad matches with NA instead.")
+                    class. Filling-in bad matches with NA instead.", call. = FALSE)
         }
     } else if ((length(nomatch) == 1) & is.na(nomatch)) { # NA
     } else if ((length(nomatch) == 1) & sane_nomatch) { # single replacement
@@ -314,7 +327,7 @@ countrycode_convert <- function(# user-supplied arguments
         destination_vector[idx] <- nomatch[idx]
     } else {
         warning("The argument `nomatch` must be NULL, NA, or of the same class
-                as the destination vector. Filling-in bad matches with NA instead.")
+                as the destination vector. Filling-in bad matches with NA instead.", call. = FALSE)
     }
 
     # Warnings
@@ -322,13 +335,13 @@ countrycode_convert <- function(# user-supplied arguments
         badmatch <- sort(unique(origin_vector[is.na(destination_vector)]))
         badmatch <- badmatch[!badmatch %in% names(custom_match)]  # do not report <NA>'s that were set explicitly by custom_match
         if(length(badmatch) > 0){
-            warning("Some values were not matched unambiguously: ", paste(badmatch, collapse=", "), "\n")
+            warning("Some values were not matched unambiguously: ", paste(badmatch, collapse=", "), "\n", call. = FALSE)
         }
         if(origin_regex){
            if(length(destination_list) > 0){
                destination_list <- lapply(destination_list, function(k) paste(k, collapse=','))
                destination_list <- sort(unique(do.call('c', destination_list)))
-               warning("Some strings were matched more than once, and therefore set to <NA> in the result: ", paste(destination_list, collapse="; "), "\n")
+               warning("Some strings were matched more than once, and therefore set to <NA> in the result: ", paste(destination_list, collapse="; "), "\n", call. = FALSE)
            }
         }
     }

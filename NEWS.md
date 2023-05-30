@@ -1,4 +1,13 @@
-# country code 1.4.0
+# countrycode 1.5.0
+
+* `get_dictionary()` function to download custom dictionaries (cross-walks):
+  - US States, Swiss Cantons, Global Burden of Disease, ExioBase, GTAP.
+* New codes: Polity V "p5c", "p5n"
+* New code "unhcr_region". Thanks to @galalH for code contribution #329
+* Many regex improvements
+* Several minor bug fixes
+
+# countrycode 1.4.0
 
 * Detect French country names using regular expressions: `origin = "country.name.fr"` (Thanks to Samuel Meichtry)
 * Detect Italian country names using regular expressions: `origin = "country.name.it"` (Thanks to Samuel Meichtry)

@@ -4,7 +4,7 @@
 #'
 #' ## Origin and Destination
 #'
-#' - `ccTLD`: IANA country code top-level domain
+#' - `cctld`: IANA country code top-level domain
 #' - `country.name`: country name (English)
 #' - `country.name.de`: country name (German)
 #' - `country.name.fr`: country name (French)
@@ -27,6 +27,8 @@
 #' - `iso2c`: ISO-2 character
 #' - `iso3c`: ISO-3 character
 #' - `iso3n`: ISO-3 numeric
+#' - `p5n`: Polity V numeric country code
+#' - `p5c`: Polity V character country code
 #' - `p4n`: Polity IV numeric country code
 #' - `p4c`: Polity IV character country code
 #' - `un`: United Nations M49 numeric codes
@@ -71,6 +73,7 @@
 #' - `un.regionintermediate.code`: United Nations intermediate region code
 #' - `un.regionsub.name`: United Nations sub-region name
 #' - `un.regionsub.code`: United Nations sub-region code
+#' - `unhcr.region`: United Nations High Commissioner for Refugees region name
 #' - `wvs.name`: World Values Survey numeric code country name
 #'
 #' @note The Correlates of War (cow) and Polity 4 (p4) project produce codes in

@@ -13,7 +13,7 @@ A data frame used internally by the \code{\link[=countrycode]{countrycode()}} fu
 \details{
 \subsection{Origin and Destination}{
 \itemize{
-\item \code{ccTLD}: IANA country code top-level domain
+\item \code{cctld}: IANA country code top-level domain
 \item \code{country.name}: country name (English)
 \item \code{country.name.de}: country name (German)
 \item \code{country.name.fr}: country name (French)
@@ -36,6 +36,8 @@ A data frame used internally by the \code{\link[=countrycode]{countrycode()}} fu
 \item \code{iso2c}: ISO-2 character
 \item \code{iso3c}: ISO-3 character
 \item \code{iso3n}: ISO-3 numeric
+\item \code{p5n}: Polity V numeric country code
+\item \code{p5c}: Polity V character country code
 \item \code{p4n}: Polity IV numeric country code
 \item \code{p4c}: Polity IV character country code
 \item \code{un}: United Nations M49 numeric codes
@@ -82,6 +84,7 @@ without special territories
 \item \code{un.regionintermediate.code}: United Nations intermediate region code
 \item \code{un.regionsub.name}: United Nations sub-region name
 \item \code{un.regionsub.code}: United Nations sub-region code
+\item \code{unhcr.region}: United Nations High Commissioner for Refugees region name
 \item \code{wvs.name}: World Values Survey numeric code country name
 }
 }
