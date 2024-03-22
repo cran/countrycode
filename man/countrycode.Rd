@@ -103,17 +103,10 @@ countrycode(c('United States', 'Algeria'), 'country.name', 'iso3c')
 countrycode(c('United States', 'Algeria'), 'country.name', 'iso3c',
             custom_match = c('Algeria' = 'ALG'))
 
-\dontrun{
- # Download the dictionary of US states from Github
- state_dict <- "https://bit.ly/2ToSrFv"
- state_dict <- read.csv(state_dict)
+x <- c("canada", "antarctica")
+countryname(x)
+countryname(x, destination = "cowc", warn = FALSE)
+countryname(x, destination = "cowc", warn = FALSE, nomatch = x)
 
- # The "state.regex" column includes regular expressions, so we set an attribute.
- attr(state_dict, "origin_regex") <- "state.regex"
- countrycode(c('AL', 'AK'), 'abbreviation', 'state',
-             custom_dict = state_dict)
- countrycode(c('Alabama', 'North Dakota'), 'state.regex', 'state',
-             custom_dict = state_dict)
-}
 }
 \keyword{countrycode}

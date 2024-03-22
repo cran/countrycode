@@ -81,19 +81,11 @@
 #' countrycode(c('United States', 'Algeria'), 'country.name', 'iso3c',
 #'             custom_match = c('Algeria' = 'ALG'))
 #'
-#' \dontrun{
-#'  # Download the dictionary of US states from Github
-#'  state_dict <- "https://bit.ly/2ToSrFv"
-#'  state_dict <- read.csv(state_dict)
-#' 
-#'  # The "state.regex" column includes regular expressions, so we set an attribute.
-#'  attr(state_dict, "origin_regex") <- "state.regex"
-#
-#'  countrycode(c('AL', 'AK'), 'abbreviation', 'state',
-#'              custom_dict = state_dict)
-#'  countrycode(c('Alabama', 'North Dakota'), 'state.regex', 'state',
-#'              custom_dict = state_dict)
-#' }
+#' x <- c("canada", "antarctica")
+#' countryname(x)
+#' countryname(x, destination = "cowc", warn = FALSE)
+#' countryname(x, destination = "cowc", warn = FALSE, nomatch = x)
+#'
 countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = NA,
                         custom_dict = NULL, custom_match = NULL, origin_regex = NULL) {
 
@@ -116,7 +108,7 @@ countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = N
     }
 
     # default country names (only for default dictionary)
-    if (is.null(custom_dict)) { 
+    if (is.null(custom_dict)) {
         if (origin == 'country.name') {
             origin <- 'country.name.en'
         }
@@ -193,31 +185,52 @@ countrycode <- function(sourcevar, origin, destination, warn = TRUE, nomatch = N
     if(is.null(custom_dict)){ # only for built-in dictionary
         # unicode.symbol breaks uppercase on Windows R-devel 2022-02-02; rejected by CRAN
         if(inherits(origin_vector, 'character') & !grepl('country|unicode.symbol', origin)){
-            origin_vector = toupper(origin_vector)
+            # only apply toupper() on unique values and match after.
+            # much faster than applying toupper() on the whole vector
+            # when vector is very large
+            uniques <- unique(origin_vector)
+            uppercase <- toupper(uniques)
+            origin_vector <- unname(uppercase[match(origin_vector, uniques)])
         }
     }
 
     out <- rep(NA, length(sourcevar))
     for (dest in destination) {
-        out <- ifelse(is.na(out),
-                      countrycode_convert(
-                          ## user-supplied arguments
-                          sourcevar = sourcevar,
-                          origin = origin,
-                          destination = dest,
-                          warn = warn,
-                          nomatch = nomatch,
-                          custom_dict = custom_dict,
-                          custom_match = custom_match,
-                          origin_regex = origin_regex,
-                          ## countrycode-supplied arguments
-                          origin_vector = origin_vector,
-                          dictionary = dictionary),
-                      out)
+        if (length(destination) == 1) {
+            out <- countrycode_convert(
+                ## user-supplied arguments
+                sourcevar = sourcevar,
+                origin = origin,
+                destination = dest,
+                warn = warn,
+                nomatch = nomatch,
+                custom_dict = custom_dict,
+                custom_match = custom_match,
+                origin_regex = origin_regex,
+                ## countrycode-supplied arguments
+                origin_vector = origin_vector,
+                dictionary = dictionary)
+        } else {
+            out <- ifelse(is.na(out),
+                          countrycode_convert(
+                              ## user-supplied arguments
+                              sourcevar = sourcevar,
+                              origin = origin,
+                              destination = dest,
+                              warn = warn,
+                              nomatch = nomatch,
+                              custom_dict = custom_dict,
+                              custom_match = custom_match,
+                              origin_regex = origin_regex,
+                              ## countrycode-supplied arguments
+                              origin_vector = origin_vector,
+                              dictionary = dictionary),
+                          out)
+        }
     }
     return(out)
 }
-                        
+
 
 #' internal function called by `countrycode()`
 #'
@@ -243,13 +256,24 @@ countrycode_convert <- function(# user-supplied arguments
         dict <- stats::na.omit(dictionary[, c(origin, destination)])
         sourcefctr <- factor(origin_vector)
 
-        # match levels of sourcefctr
-        matches <-
-          sapply(c(levels(sourcefctr), NA), function(x) { # add NA so there's at least one item
-            x <- tryCatch(trimws(x), error = function(e) x) # sometimes an error is triggered by encoding issues
-            matchidx <- sapply(dict[[origin]], function(y) grepl(y, x, perl = TRUE, ignore.case = TRUE))
-            dict[matchidx, destination]
-          })
+        # possibilities (add NA so there's at least one item)
+        choices <- c(levels(sourcefctr), NA)
+        # sometimes an error is triggered by encoding issues
+        choices <- tryCatch(trimws(choices), error = function(e) choices)
+
+        # Apply all regexes on all inputs. This gives a matrix where rows
+        # are the inputs and columns are the regexes.
+        # For each row, the `TRUE` values indicate the matches.
+        matchidx <- sapply(dict[[origin]], grepl, x = choices,
+                           perl = TRUE, ignore.case = TRUE)
+        if (all(is.na(choices))) {
+            matches <- vector("list", length = length(choices))
+        } else {
+            out <- apply(matchidx, 1, which, simplify = FALSE)
+            names(out) <- choices
+            matches <- lapply(out, function(x) dict[x, destination])
+        }
+
 
         # fill elements that have zero matches with the appropriate NA
         matches[sapply(matches, length) == 0] <- `class<-`(NA, class(dict[[destination]]))
@@ -320,8 +344,8 @@ countrycode_convert <- function(# user-supplied arguments
             warning("The origin and destination codes are not of the same
                     class. Filling-in bad matches with NA instead.", call. = FALSE)
         }
-    } else if ((length(nomatch) == 1) & is.na(nomatch)) { # NA
-    } else if ((length(nomatch) == 1) & sane_nomatch) { # single replacement
+    } else if ((length(nomatch) == 1) && is.na(nomatch)) { # NA
+    } else if ((length(nomatch) == 1) && sane_nomatch) { # single replacement
         destination_vector[idx] <- nomatch
     } else if ((length(nomatch) == length(sourcevar)) & sane_sourcevar) { # vector replacement
         destination_vector[idx] <- nomatch[idx]
