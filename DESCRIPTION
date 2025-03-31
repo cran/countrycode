@@ -1,7 +1,7 @@
 Type: Package
 Package: countrycode
 Title: Convert Country Names and Country Codes
-Version: 1.6.0
+Version: 1.6.1
 Authors@R: 
     c(person(given = "Vincent",
              family = "Arel-Bundock",
@@ -38,9 +38,9 @@ Suggests: altdoc, eurostat, testthat, tibble, ISOcodes, utf8
 Encoding: UTF-8
 LazyData: yes
 LazyLoad: yes
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 NeedsCompilation: no
-Packaged: 2024-03-22 15:18:14 UTC; vincent
+Packaged: 2025-03-31 19:29:48 UTC; vincent
 Author: Vincent Arel-Bundock [aut, cre]
     (<https://orcid.org/0000-0003-2042-7063>),
   CJ Yetman [ctb] (<https://orcid.org/0000-0001-5099-9500>),
@@ -49,4 +49,4 @@ Author: Vincent Arel-Bundock [aut, cre]
   Samuel Meichtry [ctb] (<https://orcid.org/0000-0003-2165-791X>)
 Maintainer: Vincent Arel-Bundock <vincent.arel-bundock@umontreal.ca>
 Repository: CRAN
-Date/Publication: 2024-03-22 16:10:19 UTC
+Date/Publication: 2025-03-31 20:00:02 UTC
