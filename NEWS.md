@@ -1,5 +1,17 @@
 # News
 
+## 1.7.0
+
+* Add `telephone` as a new code from ITU-T E.164 country codes for telecommunication.
+* Add coverage for historical Gleditsch & Ward polities (including United Provinces of Central America, Transvaal, and Tibet) and regression tests. Thanks to @JoeNoonan for Issue #320.
+* `custom_match` now suppresses ambiguity and duplicate-match warnings for overridden values. Thanks to @victorhartman and @NilsEnevoldsen for the report and analysis (Issue #364).
+* Stricter Micronesia regular expressions. Thanks to @mattkerlogue, @stefgehrig, @cjyetman, @NilsEnevoldsen for discussion in Issue #354.
+* `TÜRKİYE` (dotted capital İ) now matches Turkey. Thanks to @cjyetman and @NilsEnevoldsen for report #347.
+* Update many dictionaries to the latest versions from publishing organizations. Thanks to @NilsEnevoldsen.
+* Improve Ireland regular expressions and add tests. Issue #313.
+* Improve Germany / East Germany regular expressions and add tests. Issue #313.
+* Update ISO4217 currency codes. Thanks to @cjyetman.
+
 ## countrycode 1.6.1
 
 * The `simplify` argument in `apply` was introduced in R 4.1.0. We used it, which broke usage of countrycode on older versions of R.
@@ -210,6 +222,3 @@ Misc:
 * Moved documentation to roxygen2
 * Fixed Trinidad Tobago regex
 * Added UN and FAO country codes
-
-
-

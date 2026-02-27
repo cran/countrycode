@@ -61,6 +61,7 @@
 #' - `p4.name`: Polity IV country name
 #' - `region`: 7 Regions as defined in the World Bank Development Indicators
 #' - `region23`: 23 Regions as used to be in the World Bank Development Indicators (legacy)
+#' - `telephone`: ITU-T E.164 country codes for telecommunication
 #' - `un.name.ar`: United Nations Arabic country name
 #' - `un.name.en`: United Nations English country name
 #' - `un.name.es`: United Nations Spanish country name

@@ -1,7 +1,7 @@
 Type: Package
 Package: countrycode
 Title: Convert Country Names and Country Codes
-Version: 1.6.1
+Version: 1.7.0
 Authors@R: 
     c(person(given = "Vincent",
              family = "Arel-Bundock",
@@ -38,15 +38,15 @@ Suggests: altdoc, eurostat, testthat, tibble, ISOcodes, utf8
 Encoding: UTF-8
 LazyData: yes
 LazyLoad: yes
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 NeedsCompilation: no
-Packaged: 2025-03-31 19:29:48 UTC; vincent
-Author: Vincent Arel-Bundock [aut, cre]
-    (<https://orcid.org/0000-0003-2042-7063>),
-  CJ Yetman [ctb] (<https://orcid.org/0000-0001-5099-9500>),
-  Nils Enevoldsen [ctb] (<https://orcid.org/0000-0001-7195-4117>),
-  Etienne Bacher [ctb] (<https://orcid.org/0000-0002-9271-5075>),
-  Samuel Meichtry [ctb] (<https://orcid.org/0000-0003-2165-791X>)
+Packaged: 2026-02-27 14:31:02 UTC; vincent
+Author: Vincent Arel-Bundock [aut, cre] (ORCID:
+    <https://orcid.org/0000-0003-2042-7063>),
+  CJ Yetman [ctb] (ORCID: <https://orcid.org/0000-0001-5099-9500>),
+  Nils Enevoldsen [ctb] (ORCID: <https://orcid.org/0000-0001-7195-4117>),
+  Etienne Bacher [ctb] (ORCID: <https://orcid.org/0000-0002-9271-5075>),
+  Samuel Meichtry [ctb] (ORCID: <https://orcid.org/0000-0003-2165-791X>)
 Maintainer: Vincent Arel-Bundock <vincent.arel-bundock@umontreal.ca>
 Repository: CRAN
-Date/Publication: 2025-03-31 20:00:02 UTC
+Date/Publication: 2026-02-27 15:00:02 UTC

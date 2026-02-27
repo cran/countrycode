@@ -72,6 +72,7 @@ without special territories
 \item \code{p4.name}: Polity IV country name
 \item \code{region}: 7 Regions as defined in the World Bank Development Indicators
 \item \code{region23}: 23 Regions as used to be in the World Bank Development Indicators (legacy)
+\item \code{telephone}: ITU-T E.164 country codes for telecommunication
 \item \code{un.name.ar}: United Nations Arabic country name
 \item \code{un.name.en}: United Nations English country name
 \item \code{un.name.es}: United Nations Spanish country name

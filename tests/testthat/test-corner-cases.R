@@ -11,6 +11,50 @@ test_that("Issue #258", {
         730)
 })
 
+test_that("Issue #320: GW historical polities are present with expected ranges", {
+    cs <- countrycode::codelist
+    pan <- countrycode::codelist_panel
+
+    expected <- data.frame(
+        gwn = c(89, 563, 564, 711, 815),
+        gwc = c("UPC", "TRA", "OFS", "TBT", "VNM"),
+        start = c(1823, 1852, 1854, 1913, 1816),
+        end = c(1839, 1910, 1910, 1950, 1893),
+        stringsAsFactors = FALSE
+    )
+
+    for (i in seq_len(nrow(expected))) {
+        rec <- expected[i, ]
+
+        idx_pan <- which(pan$gwc == rec$gwc & pan$gwn == rec$gwn)
+        pan_i <- pan[idx_pan, , drop = FALSE]
+        expect_gt(nrow(pan_i), 0)
+        if (nrow(pan_i) == 0) next
+        expect_equal(min(pan_i$year), rec$start)
+        expect_equal(max(pan_i$year), rec$end)
+
+        idx_cs <- which(cs$gwc == rec$gwc & cs$gwn == rec$gwn)
+        cs_i <- cs[idx_cs, , drop = FALSE]
+        expect_equal(nrow(cs_i), 1)
+    }
+})
+
+test_that("Issue #320: GW historical code conversion", {
+    expect_equal(89, countrycode("UPC", "gwc", "gwn"))
+    expect_equal(563, countrycode("TRA", "gwc", "gwn"))
+    expect_equal(564, countrycode("OFS", "gwc", "gwn"))
+    expect_equal(711, countrycode("TBT", "gwc", "gwn"))
+    expect_equal(815, countrycode("VNM", "gwc", "gwn"))
+    expect_equal(817, countrycode("RVN", "gwc", "gwn"))
+
+    expect_equal("UPC", countrycode(89, "gwn", "gwc"))
+    expect_equal("TRA", countrycode(563, "gwn", "gwc"))
+    expect_equal("OFS", countrycode(564, "gwn", "gwc"))
+    expect_equal("TBT", countrycode(711, "gwn", "gwc"))
+    expect_equal("VNM", countrycode(815, "gwn", "gwc"))
+    expect_equal("RVN", countrycode(817, "gwn", "gwc"))
+})
+
 
 test_that("UN spanish name is Trinidad y Tabago: Issue #299", {
     expect_equal(countrycode("Trinidad and Tobago", "country.name", "un.name.es"), "Trinidad y Tabago")
@@ -94,3 +138,71 @@ test_that("misc", {
         "CUW")
 })
 
+
+# Issue #364: custom_match should suppress duplicate-match warnings
+test_that("custom_match suppresses duplicate-match warning (AC1)", {
+    expect_no_warning(
+        countrycode(
+            c("china_hong_kong_sar", "china_macao_sar"),
+            "country.name", "iso3c",
+            custom_match = c(
+                "china_hong_kong_sar" = "HKG",
+                "china_macao_sar" = "MAC"
+            )
+        )
+    )
+})
+
+test_that("custom_match returns correct values for HK/Macau (AC1)", {
+    expect_equal(
+        suppressWarnings(countrycode(
+            c("china_hong_kong_sar", "china_macao_sar"),
+            "country.name", "iso3c",
+            custom_match = c(
+                "china_hong_kong_sar" = "HKG",
+                "china_macao_sar" = "MAC"
+            )
+        )),
+        c("HKG", "MAC")
+    )
+})
+
+test_that("without custom_match HK/Macau still warn (AC2)", {
+    expect_warning(
+        countrycode(c("china_hong_kong_sar", "china_macao_sar"), "country.name", "iso3c"),
+        "matched more than once"
+    )
+})
+
+test_that("partial custom_match warns only for non-overridden value (AC3)", {
+    w <- tryCatch(
+        countrycode(
+            c("china_hong_kong_sar", "china_macao_sar"),
+            "country.name", "iso3c",
+            custom_match = c("china_hong_kong_sar" = "HKG")
+        ),
+        warning = function(w) w
+    )
+    expect_match(conditionMessage(w), "china_macao_sar")
+    expect_false(grepl("china_hong_kong_sar", conditionMessage(w)))
+})
+
+test_that("non-ambiguous custom_match produces no warnings (AC4)", {
+    expect_no_warning(
+        countrycode(
+            c("republic_of_korea", "isle_of_man"),
+            "country.name", "iso3c",
+            custom_match = c(
+                "republic_of_korea" = "KOR",
+                "isle_of_man" = "IMN"
+            )
+        )
+    )
+})
+
+
+test_that("Turkey regex matches dotted capital \u0130 spelling", {
+    x <- c("Turkey", "Turkiye", "T\u00fcrkiye", "T\u00dcRK\u0130YE")
+    out <- countrycode(x, "country.name", "country.name", warn = FALSE)
+    expect_equal(out, rep("Turkey", length(x)))
+})
